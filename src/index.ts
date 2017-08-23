@@ -1,4 +1,5 @@
 import * as Discord from "discord.js";
+import * as request from "request";
 
 const client = new Discord.Client();
 
@@ -7,8 +8,30 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('Pong!');
+  if (msg.content != '') {
+    var message = msg.content.split(" ");	
+    {
+      switch (message[0]) {
+        case '!sendGet': {
+          request.get(message[1])
+          .on('response', function(response) {
+            msg.reply('Ответ сервера, код: '+response.statusCode);
+            msg.reply('Ответ сервера, тело: '+response);
+          });
+          break;
+        }
+        case '!sendPost': {
+          request.post(message[1])
+          .on('response', function(response,) {
+            msg.reply('Ответ сервера, код: '+response.statusCode);
+            msg.reply('Ответ сервера, тело: '+response);
+          });
+          break;
+        }
+        default:
+          break;
+      }
+    }
   }
 });
 
