@@ -13,19 +13,25 @@ client.on('message', msg => {
     {
       switch (message[0]) {
         case '!sendGet': {
-          request.get(message[1])
-          .on('response', function(response) {
-            msg.reply('Ответ сервера, код: '+response.statusCode);
-            msg.reply('Ответ сервера, тело: '+response);
-          });
+          request.get(message[1]).on('response', function(response) {
+                msg.reply('Ответ сервера, код: ' + response.statusCode);
+                msg.reply('Ответ сервера, тело: ' + response);
+                console.log(response.body);
+              })
+              .on('error', function(err) {
+                msg.reply('Ответ сервера, ошибка: ' + err);
+              });
           break;
         }
         case '!sendPost': {
-          request.post(message[1])
-          .on('response', function(response,) {
-            msg.reply('Ответ сервера, код: '+response.statusCode);
-            msg.reply('Ответ сервера, тело: '+response);
-          });
+          request.post(message[1]).on('response', function(response) {
+              msg.reply('Ответ сервера, код: ' + response.statusCode);
+              msg.reply('Ответ сервера, тело: ' + response);
+              console.log(response.body);
+            })
+            .on('error', function(err) {
+              msg.reply('Ответ сервера, ошибка: ' + err);
+            });
           break;
         }
         default:
